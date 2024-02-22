@@ -1,0 +1,10 @@
+  h1 {
+    color: #333;
+    text-transform:uppercase
+  }
+  
+ .accueil-text-container {
+    font-size: 1.4rem;
+    color: var(--primary);  
+  }
+  

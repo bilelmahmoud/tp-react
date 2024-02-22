@@ -1,0 +1,12 @@
+:root{
+    --primary: #032541;
+    --secondary:#21d07a;
+    --white : #fff;
+}
+
+.container{
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-right: auto;
+    margin-left: auto;
+}

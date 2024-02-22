@@ -1,0 +1,12 @@
+:root{
+    --space-base: max(5px, 1vw)
+}
+
+@font-face {
+    font-family: "Roboto";
+    src:
+      url("../../fonts/Roboto/Roboto-Bold.ttf")
+  }
+
+ 
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&family=Playfair+Display&family=Roboto:wght@100&display=swap');
