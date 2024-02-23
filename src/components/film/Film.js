@@ -6,7 +6,6 @@ import {  Link } from "react-router-dom";
 
 
 
-
 function Film() {
   const {id} = useParams();
   const urlFilm = `https://film-22gk.onrender.com/api/films/${id}`;
