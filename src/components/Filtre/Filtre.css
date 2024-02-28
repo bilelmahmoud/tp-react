@@ -1,0 +1,21 @@
+ul.filtre-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+    margin-bottom: 10px; 
+  }
+  
+  ul.filtre-list li {
+    margin-right: 15px; 
+    cursor: pointer;
+    padding: 15px;
+    border: 1px solid #ccc;
+  }
+  
+  ul.filtre-list li.filtre-actif {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  

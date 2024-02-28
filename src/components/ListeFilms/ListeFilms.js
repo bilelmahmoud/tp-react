@@ -2,18 +2,21 @@ import TuileFilm from '../TuileFilm/TuileFilm';
 import '../ListeFilms/ListeFilm.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Filtre from '../Filtre/Filtre';
 
 function ListeFilm() {
-  const urlListeFilms = 'https://film-22gk.onrender.com/api/films';
+   const urlListeFilms = 'https://film-22gk.onrender.com/api/films';
+  // const urlListeFilms = 'data/titre-asc.json';
+   const[urlFiltre, setUrlFiltre] = useState(urlListeFilms)
   const [listeFilms, setListeFilm] = useState([]);
 
   useEffect(() => {
-    fetch(urlListeFilms)
+    fetch(urlFiltre)
       .then((response) => response.json())
       .then((data) => {
         setListeFilm(data);
       });
-  }, []);
+  }, [urlFiltre]);
 
   const tuilesFilm = listeFilms.map((film, index) => {
     return (
@@ -23,14 +26,17 @@ function ListeFilm() {
     );
   });
 
+  
   return (
     <main>
-      <h1>Liste de films</h1>
+      <Filtre setUrlFiltre={setUrlFiltre} urlListeFilms={urlListeFilms}  />
       <div className="tuile-film-grid">
         {tuilesFilm}
+
       </div>
     </main>
   );
 }
 
 export default ListeFilm;
+
