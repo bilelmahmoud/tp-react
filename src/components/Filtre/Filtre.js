@@ -7,6 +7,7 @@ function Filtre({ setUrlFiltre, urlListeFilms }) {
   function filtre(e) {
     if (e.target.textContent === 'Titre alphabétique (A-Z)') {
       setUrlFiltre(`${urlListeFilms}?tri=titre&order=asc`);
+    
 
     } else if (e.target.textContent === 'Titre alphabétique (Z-A)') {
       setUrlFiltre(`${urlListeFilms}?tri=titre&order=desc`);

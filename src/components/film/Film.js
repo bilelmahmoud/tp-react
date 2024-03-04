@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext,  } from 'react'
 import {useParams} from "react-router-dom";
-// import {  Link } from "react-router-dom";
 import '../film/Film.css'
-
-
-
-
+import { AppContext } from "../App/App";
 
 function Film() {
+   
+  const context = useContext(AppContext)
+
   const {id} = useParams();
   const urlFilm = `https://film-22gk.onrender.com/api/films/${id}`;
   // const urlFilm = `data/titre-asc.json/${id}
@@ -29,15 +28,14 @@ function Film() {
      
 
        if (data.notes && data.notes.length > 0) {
-        // Calcul de la moyenne
-        const moyenne = data.notes.reduce((total, note) => total + note, 0) / data.notes.length;
+  
+        // const moyenne = data.notes.reduce((total, note) => total + note, 0) / data.notes.length;
         console.log('Moyenne:', moyenne);
 
-        // Mise à jour de la moyenne et du nombre de votes
-        setMoyenne(moyenne.toFixed(2)); // Limité à 2 chiffres après la virgule
+    
+        setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
         setNombreVotes(data.notes.length);
       } else {
-        // Aucune note, mettre à jour la moyenne et le nombre de votes à des valeurs par défaut
         setMoyenne(0);
         setNombreVotes(0);
       }
@@ -55,7 +53,8 @@ function Film() {
       if (!film.notes) {
         aNotes = [rating];
       } else {
-        aNotes = [...film.notes, rating];
+        aNotes = film.notes;
+        aNotes.push(rating);
       }
         
         const oOptions = {
@@ -75,6 +74,54 @@ function Film() {
         .then((data) => {
             console.log(data.notes);
             setFilm(data)
+            console.log(moyenne)
+            setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
+        
+           setNombreVotes(data.notes.length);
+        })    
+    }
+
+    let BlocAjoutCommentaire
+
+    if(context.estLog) {
+      BlocAjoutCommentaire = <form onSubmit={soumettreCommentaire}>
+
+                           <textarea name="commentaire" id="" cols="30" rows="10" placeholder='votre commentaire'></textarea>
+                           <button>soumettre</button>
+
+         
+                             </form>
+    }
+
+    async function soumettreCommentaire(e) {
+      e.preventDefault();
+      console.log(e.target)
+      let aCommentaires;
+     
+      if (!aCommentaires) {
+        aCommentaires = [{commentaire: 'je suis un comentaire', usager: context.usager}];
+      } else {
+        aCommentaires = film.commentaires;
+        aCommentaires.push({commentaire: 'je suis un comentaire', usager: context.usager});
+      }
+        // appel async
+        const oOptions = {
+          method : 'put',
+          headers:{
+            'Content-Type' : 'application/json'
+          },
+          body: JSON.stringify({commentaire : aCommentaires})
+        }
+
+        let putCommnetaire = await fetch(urlFilm, oOptions) ,
+            getFilm = await fetch(urlFilm);
+
+
+        Promise.all([putCommnetaire, getFilm])
+        .then(response  => response[1].json())
+        .then((data) => {
+            console.log(data);
+            setFilm(data)
             //setMoyenne
             //seTnBvOTES
         })    
@@ -93,35 +140,30 @@ function Film() {
         <p> <strong>Annee</strong> : {film.annee}</p>
         <p> <strong>Genres</strong> : {genres}</p>
 
-        {/* <div className="rating">
-        <input type="radio" id="star5" name="rating" value="5" /><label htmlFor="star5"></label>
-        <input type="radio" id="star4" name="rating" value="4" /><label htmlFor="star4"></label>
-        <input type="radio" id="star3" name="rating" value="3" /><label htmlFor="star3"></label>
-        <input type="radio" id="star2" name="rating" value="2" /><label htmlFor="star2"></label>
-        <input type="radio" id="star1" name="rating" value="1" /><label htmlFor="star1"></label>
-        </div> */}
+        
+        <div className="rating">
+          <input type="radio" id="star5" name="rating" value="5" checked={rating === 5} onChange={() => setRating(5)} />
+          <label htmlFor="star5"></label>
 
-              <div className="rating">
-                {[5, 4, 3, 2, 1].map((value) => (
-                  <div key={value}>
-                    <input
-                      type="radio"
-                      id={`star${value}`}
-                      name="rating"
-                      value={value}
-                      checked={rating === value}
-                      onChange={() => setRating(value)}
-                    />
-                    <label htmlFor={`star${value}`}></label>
-                  </div>
-                ))}
-              </div>
+          <input type="radio" id="star4" name="rating" value="4" checked={rating === 4} onChange={() => setRating(4)} />
+          <label htmlFor="star4"></label>
 
+          <input type="radio" id="star3" name="rating" value="3" checked={rating === 3} onChange={() => setRating(3)} />
+          <label htmlFor="star3"></label>
+
+          <input type="radio" id="star2" name="rating" value="2" checked={rating === 2} onChange={() => setRating(2)} />
+          <label htmlFor="star2"></label>
+
+          <input type="radio" id="star1" name="rating" value="1" checked={rating === 1} onChange={() => setRating(1)} />
+          <label htmlFor="star1"></label>
+        </div>
 
         <p><strong>Moyenne des votes:</strong> {moyenne}</p>
         <p><strong>Nombre de votes:</strong> {nombreVotes}</p>
+
+        {BlocAjoutCommentaire}
   
-        <button onClick={soumettreNote}>vote</button>
+        <button onClick={soumettreNote} className='btn'>vote</button>
    
       </div>
                  

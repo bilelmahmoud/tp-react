@@ -101,3 +101,4 @@
 .rating input:not(:checked):hover ~ label:before {
     color: #F9DF4A;
 }
+

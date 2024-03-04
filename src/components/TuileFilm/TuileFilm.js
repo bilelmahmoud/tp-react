@@ -10,6 +10,7 @@ function TuileFilm(props) {
           <h1>{props.data.titre}</h1>
           <p>{props.data.description}</p>
           <p>{props.data.realisation}</p>
+          {/* //operateur ternaire */}
         </div>
       </div>
     </article>
