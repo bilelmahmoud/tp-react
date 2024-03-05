@@ -1,0 +1,37 @@
+.rating {
+    width: calc((40px + 2px) * 5);
+    height: 40px;
+    margin: 0 auto;
+    padding: 25px 50;
+    border: 1px solid #CCCCCC;
+    background: #F9F9F9;
+}
+
+.rating label {
+    float: right;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+
+    &:not(:first-of-type) {
+        padding-right: 2px;
+    }
+
+    &:before {
+        content: "\2605";
+        font-size: 42px;
+        color: #CCCCCC;
+        line-height: 1;
+    }
+}
+
+.rating input {
+    display: none;
+}
+
+.rating input:checked ~ label:before,
+.rating input:not(:checked):hover:before,
+.rating input:not(:checked):hover ~ label:before {
+    color: #F9DF4A;
+}

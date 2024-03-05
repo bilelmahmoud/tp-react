@@ -2,6 +2,7 @@ import { useEffect, useState, useContext,  } from 'react'
 import {useParams} from "react-router-dom";
 import '../film/Film.css'
 import { AppContext } from "../App/App";
+import Vote from '../Vote/Vote'
 
 function Film() {
    
@@ -12,7 +13,7 @@ function Film() {
   // const urlFilm = `data/titre-asc.json/${id}
     console.log(urlFilm);
   const [film, setFilm] = useState([]);
-  const [rating, setRating] = useState(0);
+  // const [rating, setRating] = useState(0);
   const [moyenne, setMoyenne] = useState(0);
   const [nombreVotes, setNombreVotes] = useState(0);
  
@@ -22,7 +23,7 @@ function Film() {
     .then((response) => response.json())
   
     .then((data) => {
-       console.log(data.notes)
+      //  console.log(data.notes)
        console.log(data)
        setFilm(data)
      
@@ -46,39 +47,35 @@ function Film() {
 
     const genres = film.genres ? film.genres.join(' , ') : '';
 
-    async function soumettreNote(e) {
-      console.log(e.target)
+    async function soumettreNote(rating) {
       let aNotes;
-      // tableau pour les votes
+  
       if (!film.notes) {
         aNotes = [rating];
       } else {
         aNotes = film.notes;
         aNotes.push(rating);
       }
-        
-        const oOptions = {
-          method : 'put',
-          headers:{
-            'Content-Type' : 'application/json'
-          },
-          body: JSON.stringify({notes: aNotes})
-        }
-
-        let putNote = await fetch(urlFilm, oOptions) ,
-            getFilm = await fetch(urlFilm);
-
-
-        Promise.all([putNote, getFilm])
-        .then(response  => response[1].json())
+  
+      const oOptions = {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ notes: aNotes }),
+      };
+  
+      let putNote = await fetch(urlFilm, oOptions);
+      let getFilm = await fetch(urlFilm);
+  
+      Promise.all([putNote, getFilm])
+        .then((response) => response[1].json())
         .then((data) => {
-            console.log(data.notes);
-            setFilm(data)
-            console.log(moyenne)
-            setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
-        
-           setNombreVotes(data.notes.length);
-        })    
+          console.log(data.notes);
+          setFilm(data);
+          setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
+          setNombreVotes(data.notes.length);
+        });
     }
 
     let BlocAjoutCommentaire
@@ -95,38 +92,39 @@ function Film() {
 
     async function soumettreCommentaire(e) {
       e.preventDefault();
-      console.log(e.target)
+      const commentaireValue = e.target.commentaire.value;
+    
       let aCommentaires;
-     
-      if (!aCommentaires) {
-        aCommentaires = [{commentaire: 'je suis un comentaire', usager: context.usager}];
+    
+      if (!film.commentaires) {
+        aCommentaires = [{ commentaire: commentaireValue, usager: context.usager }];
       } else {
-        aCommentaires = film.commentaires;
-        aCommentaires.push({commentaire: 'je suis un comentaire', usager: context.usager});
+        // aCommentaires = [...film.commentaires, { commentaire: commentaireValue, usager: context.usager }];
+        aCommentaires = [...film.commentaires, { commentaire: commentaireValue, usager: context.usager }];
+       
       }
-        // appel async
-        const oOptions = {
-          method : 'put',
-          headers:{
-            'Content-Type' : 'application/json'
-          },
-          body: JSON.stringify({commentaire : aCommentaires})
-        }
-
-        let putCommnetaire = await fetch(urlFilm, oOptions) ,
-            getFilm = await fetch(urlFilm);
-
-
-        Promise.all([putCommnetaire, getFilm])
-        .then(response  => response[1].json())
+    
+      const oOptions = {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ commentaires: aCommentaires }),  
+      };
+    
+      let putCommnetaire = await fetch(urlFilm, oOptions);
+      let getFilm = await fetch(urlFilm);
+    
+      Promise.all([putCommnetaire, getFilm])
+        .then((response) => response[1].json())
         .then((data) => {
-            console.log(data);
-            setFilm(data)
-            //setMoyenne
-            //seTnBvOTES
-        })    
+          console.log(data);
+          setFilm(data);
+          e.target.reset();
+          //setMoyenne
+          //seTnBvOTES
+        });
     }
-
 
     return (
     
@@ -141,7 +139,7 @@ function Film() {
         <p> <strong>Genres</strong> : {genres}</p>
 
         
-        <div className="rating">
+        {/* <div className="rating">
           <input type="radio" id="star5" name="rating" value="5" checked={rating === 5} onChange={() => setRating(5)} />
           <label htmlFor="star5"></label>
 
@@ -156,15 +154,26 @@ function Film() {
 
           <input type="radio" id="star1" name="rating" value="1" checked={rating === 1} onChange={() => setRating(1)} />
           <label htmlFor="star1"></label>
-        </div>
+        </div> */}
 
         <p><strong>Moyenne des votes:</strong> {moyenne}</p>
         <p><strong>Nombre de votes:</strong> {nombreVotes}</p>
 
         {BlocAjoutCommentaire}
+ 
+        <Vote onVote={soumettreNote} /> 
+
   
-        <button onClick={soumettreNote} className='btn'>vote</button>
-   
+        {/* <button onClick={soumettreNote} className='btn'>vote</button> */}
+
+        {film.commentaires && film.commentaires.map((commentaire, index) => (
+        <div key={index}>
+          <p>
+            {commentaire.usager && `Usager: ${commentaire.usager}, `}
+            {commentaire.commentaire && `Commentaire: ${commentaire.commentaire}`}
+          </p>
+        </div>
+))}
       </div>
                  
       {/* <Link to="/liste-films" className='btn'>Retour</Link> */}
