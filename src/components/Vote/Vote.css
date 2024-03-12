@@ -1,10 +1,11 @@
+
 .rating {
-    width: calc((40px + 2px) * 5);
+    width: calc((88px + 2px) * 5);
     height: 40px;
     margin: 0 auto;
     padding: 25px 50;
-    border: 1px solid #CCCCCC;
-    background: #F9F9F9;
+    /* border: 1px solid #CCCCCC; */
+    
 }
 
 .rating label {
@@ -34,4 +35,12 @@
 .rating input:not(:checked):hover:before,
 .rating input:not(:checked):hover ~ label:before {
     color: #F9DF4A;
+}
+
+
+.vote-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
 }

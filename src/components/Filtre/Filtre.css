@@ -1,21 +1,47 @@
 ul.filtre-list {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px; 
-    margin-bottom: 10px; 
-  }
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+ul.filtre-list li {
+  margin-right: 15px;
+  cursor: pointer;
+  padding: 15px 20px; /* Ajustement de la marge intérieure pour un aspect plus équilibré */
+  border: 2px solid #3498db; /* Augmentation de l'épaisseur de la bordure */
+  border-radius: 15px; /* Augmentation du rayon de la bordure */
+  font-size: 1.2rem; /* Augmentation de la taille de la police */
+  font-family: 'Montserrat', sans-serif; /* Changement de la police */
+  color: #3498db; /* Couleur du texte */
+  background-color: white; /* Couleur d'arrière-plan */
+  transition: all 0.3s ease;
+}
+
+ul.filtre-list li:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+ul.filtre-list li.filtre-actif {
+  background-color: #3498db;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.5); /* Ajustement de l'ombre */
+}
+
+
   
-  ul.filtre-list li {
-    margin-right: 15px; 
-    cursor: pointer;
-    padding: 15px;
-    border: 1px solid #ccc;
-  }
-  
-  ul.filtre-list li.filtre-actif {
-    background-color: #3498db;
-    color: white;
-  }
-  
-  
+  @media (max-width: 480px) {
+    ul.filtre-list{
+      flex-direction: column;
+      width: 80%;
+      margin-left: 20px;
+    }
+    
+    ul.filtre-list li {
+      margin-bottom: 10px;
+    }
+   
+}

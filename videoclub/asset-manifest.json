@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/videoclub/static/css/main.e207b4d1.css",
+    "main.js": "/videoclub/static/js/main.c3515fa1.js",
+    "static/media/Roboto-Bold.ttf": "/videoclub/static/media/Roboto-Bold.f80816a5455d171f948d.ttf",
+    "index.html": "/videoclub/index.html",
+    "main.e207b4d1.css.map": "/videoclub/static/css/main.e207b4d1.css.map",
+    "main.c3515fa1.js.map": "/videoclub/static/js/main.c3515fa1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e207b4d1.css",
+    "static/js/main.c3515fa1.js"
+  ]
+}

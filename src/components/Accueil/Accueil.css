@@ -4,7 +4,8 @@
   }
   
  .accueil-text-container {
-    font-size: 1.4rem;
-    color: var(--primary);  
+    font-size: 1.6rem;
+    color: var(--primary);
+    text-align: left;  
   }
   

@@ -19,38 +19,38 @@ function Entete(props) {
                <li> { context.estLog ? <NavLink  to="/admin">Admin</NavLink> : " " } </li> 
 
                <li> <NavLink  to="/liste-films">Liste des films</NavLink></li>
-               <li> <NavLink to="/liste-films" className="btn">btn</NavLink></li>
-               
-            </ul>
-         </div>
-
-         {/* <div>
-            
-              <form onSubmit={props.handleLogin}>
-
-                  <input type="text" name="usager"></input>
-                  <button>login</button>
-               
-              </form>             
-            
-         </div>     */}
-
-        <div>
+               {/* <li> <NavLink to="/liste-films" className="btn">btn</NavLink></li> */}
+               <li>        
+                 
+               <div>
             {/* Affiche le nom d'utilisateur et le bouton de logout si l'utilisateur est connecté */}
             {context.estLog ? (
                <>
-                  <p>Bienvenue, {context.usager}!</p>
-                  <button onClick={context.logout}>Logout</button>
+                 <div className="user-info">
+                     
+                        <p className="welcome-message">Bienvenue, {context.usager}!</p>
+                        <button onClick={context.logout} className="logout-btn ">Logout</button>
+                 </div>
+                 
                </>
             ) : (
                // Affiche le formulaire de login si l'utilisateur n'est pas connecté
                <form onSubmit={props.handleLogin}>
                   <input type="text" name="usager"></input>
-                  <button>Login</button>
+                  <button className="btn-login">Login</button>
                </form>
             )}
         </div>
 
+
+               </li>
+               
+            </ul>
+         </div>
+
+         
+
+        
         
                     
       </header>

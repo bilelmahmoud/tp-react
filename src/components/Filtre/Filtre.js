@@ -4,7 +4,11 @@ import '../Filtre/Filtre.css';
 function Filtre({ setUrlFiltre, urlListeFilms }) {
   const [filtreActif, setFiltreActif] = useState("");
 
-  function filtre(e) {
+  function filtre(e, url) {
+
+    //setUrlFiltre(`${urlListeFilms}${url}`)
+
+
     if (e.target.textContent === 'Titre alphabétique (A-Z)') {
       setUrlFiltre(`${urlListeFilms}?tri=titre&order=asc`);
     
@@ -29,7 +33,7 @@ function Filtre({ setUrlFiltre, urlListeFilms }) {
 
   return (
     <ul className="filtre-list">
-      <li className={filtreActif === 'Titre alphabétique (A-Z)' ? 'filtre-actif' : ''} onClick={(e) => filtre(e)}>Titre alphabétique (A-Z)</li>
+      <li className={filtreActif === 'Titre alphabétique (A-Z)' ? 'filtre-actif' : ''} onClick={(e) => filtre(e, '?tri=titre&order=asc')}>Titre alphabétique (A-Z)</li>
       <li className={filtreActif === 'Titre alphabétique (Z-A)' ? 'filtre-actif' : ''} onClick={(e) => filtre(e)}>Titre alphabétique (Z-A)</li>
       <li className={filtreActif === 'Réalisateur alphabétique (A-Z)' ? 'filtre-actif' : ''} onClick={(e) => filtre(e)}>Réalisateur alphabétique (A-Z)</li>
       <li className={filtreActif === 'Réalisateur alphabétique (Z-A)' ? 'filtre-actif' : ''} onClick={(e) => filtre(e)}>Réalisateur alphabétique (Z-A)</li>

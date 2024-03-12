@@ -2,38 +2,53 @@ import '../Vote/Vote.css'
 import  { useState } from 'react';
 
 
-function Vote({onVote}) {
-    const [rating, setRating] = useState(0);
-    const soumettreNote = () => {
-        onVote(rating);
-        setRating(0);
-    };
-
+//function Vote({onVote, moyenne, nombreVotes}) {
+function Vote(props) {
      
     return (
-        <div className="rating">
-        <input type="radio" id="star5" name="rating" value="5" checked={rating === 5} onChange={() => setRating(5)} />
-        <label htmlFor="star5"></label>
+        <>
+        <div className='vote-container'>
 
-        <input type="radio" id="star4" name="rating" value="4" checked={rating === 4} onChange={() => setRating(4)} />
-        <label htmlFor="star4"></label>
+        
+                <div className="rating"  onClick={(e) => props.handleClick(e)}>
+                    <input type="radio" id="star5" name="rating" value="5"  />
+                    <label htmlFor="star5" id="5"></label>
 
-        <input type="radio" id="star3" name="rating" value="3" checked={rating === 3} onChange={() => setRating(3)} />
-        <label htmlFor="star3"></label>
+                    <input type="radio" id="star4" name="rating" value="4"  />
+                    <label htmlFor="star4" id="4"></label>
 
-        <input type="radio" id="star2" name="rating" value="2" checked={rating === 2} onChange={() => setRating(2)} />
-        <label htmlFor="star2"></label>
+                    <input type="radio" id="star3" name="rating" value="3"  />
+                    <label htmlFor="star3" id="3"></label>
 
-        <input type="radio" id="star1" name="rating" value="1" checked={rating === 1} onChange={() => setRating(1)} />
-        <label htmlFor="star1"></label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label htmlFor="star2" id="2"></label>
 
-        <button onClick={soumettreNote} className='btn'>vote</button>
+                    <input type="radio" id="star1" name="rating" value="1"  />
+                    <label htmlFor="star1" id="1"></label>
+                </div> 
 
-        </div> 
+                     <p>({props.moyenne}/5)</p>
 
+                    
+                     {/* <p><strong>Nombre de votes:</strong>{nombreVotes}</p>  */}
+             
+                    <p>
+                        {props.nombreVotes === 0 ? 'Aucun vote' : props.nombreVotes === 1 ? `   ${props.nombreVotes} vote` : ` ${props.nombreVotes} votes`}
+                    </p>  
+       </div>
+
+        </>
+        
+
+       
+   
+        
+
+       
+    
 
 
     );
-  }
+}
   
   export default Vote;

@@ -13,7 +13,7 @@ function Film() {
   // const urlFilm = `data/titre-asc.json/${id}
     console.log(urlFilm);
   const [film, setFilm] = useState([]);
-  // const [rating, setRating] = useState(0);
+  //const [rating, setRating] = useState(0);
   const [moyenne, setMoyenne] = useState(0);
   const [nombreVotes, setNombreVotes] = useState(0);
  
@@ -31,11 +31,12 @@ function Film() {
        if (data.notes && data.notes.length > 0) {
   
         // const moyenne = data.notes.reduce((total, note) => total + note, 0) / data.notes.length;
-        console.log('Moyenne:', moyenne);
+       
 
     
         setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
         setNombreVotes(data.notes.length);
+        console.log('Moyenne:', moyenne);
       } else {
         setMoyenne(0);
         setNombreVotes(0);
@@ -47,7 +48,12 @@ function Film() {
 
     const genres = film.genres ? film.genres.join(' , ') : '';
 
-    async function soumettreNote(rating) {
+    async function soumettreNote(e) {
+      e.preventDefault();
+
+      let rating = parseInt(e.target.id, 10);
+      
+      
       let aNotes;
   
       if (!film.notes) {
@@ -76,6 +82,7 @@ function Film() {
           setMoyenne((data.notes.reduce((total, note) => total + note, 0) / data.notes.length).toFixed(2));
           setNombreVotes(data.notes.length);
         });
+        
     }
 
     let BlocAjoutCommentaire
@@ -83,8 +90,9 @@ function Film() {
     if(context.estLog) {
       BlocAjoutCommentaire = <form onSubmit={soumettreCommentaire}>
 
-                           <textarea name="commentaire" id="" cols="30" rows="10" placeholder='votre commentaire'></textarea>
-                           <button>soumettre</button>
+                           <textarea name="commentaire" id="" cols="50" rows="8" placeholder='votre commentaire'></textarea>
+                           <br />
+                           <button className='btn'>soumettre</button>
 
          
                              </form>
@@ -121,65 +129,64 @@ function Film() {
           console.log(data);
           setFilm(data);
           e.target.reset();
-          //setMoyenne
-          //seTnBvOTES
         });
     }
 
     return (
     
+      <>
   
     <article className="carte">
       <img src={`../img/${film.titreVignette}`} alt={film.titre} className="carte-image" />
+     
       <div className="carte-info">
-        <h2> {film.titre}</h2>
-        <p> <strong>Description</strong> : {film.description}</p>
-        <p> <strong>Réalisation</strong> : {film.realisation}</p>
-        <p> <strong>Annee</strong> : {film.annee}</p>
-        <p> <strong>Genres</strong> : {genres}</p>
 
-        
-        {/* <div className="rating">
-          <input type="radio" id="star5" name="rating" value="5" checked={rating === 5} onChange={() => setRating(5)} />
-          <label htmlFor="star5"></label>
-
-          <input type="radio" id="star4" name="rating" value="4" checked={rating === 4} onChange={() => setRating(4)} />
-          <label htmlFor="star4"></label>
-
-          <input type="radio" id="star3" name="rating" value="3" checked={rating === 3} onChange={() => setRating(3)} />
-          <label htmlFor="star3"></label>
-
-          <input type="radio" id="star2" name="rating" value="2" checked={rating === 2} onChange={() => setRating(2)} />
-          <label htmlFor="star2"></label>
-
-          <input type="radio" id="star1" name="rating" value="1" checked={rating === 1} onChange={() => setRating(1)} />
-          <label htmlFor="star1"></label>
-        </div> */}
-
-        <p><strong>Moyenne des votes:</strong> {moyenne}</p>
-        <p><strong>Nombre de votes:</strong> {nombreVotes}</p>
-
-        {BlocAjoutCommentaire}
- 
-        <Vote onVote={soumettreNote} /> 
-
-  
-        {/* <button onClick={soumettreNote} className='btn'>vote</button> */}
-
-        {film.commentaires && film.commentaires.map((commentaire, index) => (
-        <div key={index}>
-          <p>
-            {commentaire.usager && `Usager: ${commentaire.usager}, `}
-            {commentaire.commentaire && `Commentaire: ${commentaire.commentaire}`}
-          </p>
+        <div className='titre-vote-container'>
+              <h2> {film.titre}</h2>
+              
+        <Vote handleClick={soumettreNote} moyenne={moyenne} nombreVotes={nombreVotes} />
         </div>
-))}
+      
+              <p> <strong>Description : </strong>{film.description}</p>
+              <p> <strong>Réalisation :</strong>{film.realisation}</p>
+              <p> <strong>Annee :</strong>{film.annee}</p>
+              <p> <strong>Genres :</strong><span className='film-genres'>{genres}</span></p>
+              {BlocAjoutCommentaire}
+              {/* <div className='film-vote-commentaire'> */}
+              {/* <div className="moyenne-vote">
+              </div> */}
+              {/* </div> */}
+        
+      
       </div>
                  
       {/* <Link to="/liste-films" className='btn'>Retour</Link> */}
     </article>
-    
+      <div className='film-commentaire-container'>
 
+
+      <div className='commentaire-film'>
+                      
+                      {film.commentaires && film.commentaires.map((commentaire, index) => (
+                      <div className="carte-commentaire" key={index}>
+                        <p>
+                        <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" className='icone'><rect fill="none" height="256" width="256"/><circle cx="128" cy="128" fill="none" r="96" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="128" cy="120" fill="none" r="40" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M63.8,199.4a72,72,0,0,1,128.4,0" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+                          { commentaire.usager && ` ${commentaire.usager} `}
+                          <br />
+                          {commentaire.commentaire && ` ${commentaire.commentaire}`}
+                      
+                        </p>
+                      </div>
+                      ))}
+                         
+                      </div>
+
+
+
+      </div>
+          
+    
+</>
 
 
       

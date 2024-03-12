@@ -13,3 +13,7 @@
 .mt-large {
     margin-top: calc(var(--space-base) * 8);
 }
+
+.active{
+    pointer-events: none;
+}

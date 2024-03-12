@@ -9,8 +9,9 @@ function TuileFilm(props) {
         <div className="descriptions">
           <h1>{props.data.titre}</h1>
           <p>{props.data.description}</p>
-          <p>{props.data.realisation}</p>
+          <p> Réalisation : {props.data.realisation}</p>
           {/* //operateur ternaire */}
+          
         </div>
       </div>
     </article>

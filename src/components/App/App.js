@@ -2,17 +2,20 @@
 import Accueil from '../Accueil/Accueil'
 import ListeFilms from '../ListeFilms/ListeFilms'
 import Film from '../film/Film';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Entete from '../Entete/Entete';
 import PageNonTrouvée from '../PageNonTrouvée/PageNonTrouvée';
 import { useState } from 'react';
 import Admin from '../Admin/Admin';
 import React from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 export const AppContext = React.createContext();
 
 
 function App() {
+
+  const location= useLocation()
 
   // const [estLog, setEstLog] = useState(false)
   const [logging, setLogging] = useState({estLog : false, usager : ''})
@@ -42,18 +45,20 @@ function App() {
        
        <AppContext.Provider value={{ ...logging, logout }}>
       <div className="App">
-        <Router> 
+        {/* <Router>  */}
             {/* <Entete  handleLogin={login} estLog={estLog} /> */}
             <Entete  handleLogin={login}  />
-            <Routes>
-              <Route path="/" element={<Accueil />}></Route>
-              <Route path="/liste-films" element={<ListeFilms />}></Route>
-              <Route path="/film/:id" element={<Film />}></Route>
-              <Route path="/*" element={<PageNonTrouvée />}></Route>
-              <Route path="/admin" element={logging.estLog ? < Admin /> : <Navigate to="/" /> } />
-              
-            </Routes>
-        </Router>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.key}>
+                <Route path="/" element={<Accueil />}></Route>
+                <Route path="/liste-films" element={<ListeFilms />}></Route>
+                <Route path="/film/:id" element={<Film />}></Route>
+                <Route path="/*" element={<PageNonTrouvée />}></Route>
+                <Route path="/admin" element={logging.estLog ? < Admin /> : <Navigate to="/" /> } />
+                
+              </Routes>
+            </AnimatePresence>
+        {/* </Router> */}
         
       </div>
       </AppContext.Provider>
